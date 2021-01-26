@@ -18,36 +18,24 @@ class NavbarView(wat.views.base.BaseView):
             html.A(
                 # Use row and col to control vertical alignment of 
                 # logo / brand
-                dbc.Row(
-                [
-                    dbc.Col(dbc.NavbarBrand('Title here', className='ml-2')),
-                ],
-                align='center',
-                no_gutters=True,
-                ),
+                dbc.Row([
+                    dbc.Col(dbc.NavbarBrand('Tooltip annotation', className='ml-0')),
+                ], className='ml-1', align='center', no_gutters=True),
                 href='/',
             ),
-            dbc.Nav(
-            [
-                dbc.NavItem(dbc.NavLink('Dashboard', active=True, href='/')),
-                dbc.NavItem(dbc.NavLink('Page 1', active=True,
-                    href='/page1')),
-                dbc.NavItem(dbc.NavLink('Page 2', active=True,
-                    href='/page2')),
-                dbc.DropdownMenu(label='Dropdown', children=[
-                    dbc.DropdownMenuItem('Option 1', href='/whatever/url'),
-                    dbc.DropdownMenuItem('Option 2', href='/whatever/url'),
-                ], nav=True),
-            ],
-            ),
-            dbc.Row(
-                [
-                html.A(dbc.Button('Button 1', color='success'), href='/whatever1', className='mr-2'),
-                html.A(dbc.Button('Button 2', color='danger'), href='/whatever2', className='mr-2'),
-                html.A(dbc.Button('Button 3', color='primary'), href='/whatever3'),
-                ],
-                className='ml-auto mr-2',
-            ),
+            dbc.Nav([
+                dbc.NavItem([], className='ml-5'),
+                html.A(dbc.Button('Submit', color='success'), href='/submit', className='ml-5'),
+                dbc.NavItem([], className='ml-5'),
+                dbc.NavItem([], className='ml-5'),
+                html.A(dbc.Button('Undo', color='secondary'), href='/undo', className='ml-5'),
+                dbc.NavItem([], className='ml-5'),
+                dbc.NavItem([], className='ml-5'),
+                html.A(dbc.Button('Clear', color='danger'), href='/submit', className='ml-5'),
+            ]),
+            dbc.Row([
+                html.A(dbc.Button('Instructions', color='primary'), href='/instructions', className='mr-0'),
+            ], className='ml-auto mr-1'),
         ],
         color='dark',
         dark=True,

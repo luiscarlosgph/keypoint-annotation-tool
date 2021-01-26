@@ -14,13 +14,14 @@ import wat.views.dashboard
 
 class DashboardPage(object):
     """@class that displays the whole page."""
-    def __init__(self, args):
+    def __init__(self, args, show_instructions=False):
         """@param[in]  args  Command line argparse args."""
         self.args = args
+        self.show_instructions = show_instructions
     
     def generate_html(self):
         nav_view = wat.views.navbar.NavbarView()
-        dashboard_view = wat.views.dashboard.DashboardView(self.args)
+        dashboard_view = wat.views.dashboard.DashboardView(self.args, self.show_instructions)
         content = html.Div([
             nav_view.generate_html(),
             dashboard_view.generate_html(),
