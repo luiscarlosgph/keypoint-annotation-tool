@@ -77,7 +77,7 @@ class TooltipAnnotator(BaseAnnotator):
                       of clicks.
             """
             if len(self.clicks) == 1:
-                self.clicks = [None, self.clicks[0]]
+                self.clicks = [{'x': None, 'y': None}, self.clicks[0]]
             elif len(self.clicks) == 2:
                 self.clicks = [self.clicks[1], self.clicks[0]]
 
