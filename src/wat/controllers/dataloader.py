@@ -12,7 +12,7 @@ import wat.common
 
 class DataLoader(object):
     """
-    @class that keeps the database updated. It is a Singleton.
+    @class that facilitates the loading of images from the data directory. It is a Singleton.
     """
     class __DataLoader: 
         def __init__(self, data_dir, log_file='log.txt'):
@@ -45,19 +45,6 @@ class DataLoader(object):
         def remaining(self):
             """@returns the number of images to be annotated."""
             return len(wat.common.listdir(self.input_dir, ext=['.png', '.jpg'], onlyfiles=True))
-        
-        """
-        def annotate(self, fname, data_dic):
-            # Move file to output folder
-            src_path = os.path.abspath(os.path.join(self.input_dir, fname))
-            dst_path = os.path.abspath(os.path.join(self.output_dir, fname))
-            wat.common.mv(src_path, dst_path)
-
-            # Save JSON annotation to output folder
-            json_fname = wat.common.fname_no_ext(fname) + '.json'
-            json_path = os.path.abspath(os.path.join(self.output_dir, json_fname))
-            wat.common.save_json(data_dic, json_path)
-        """
         
     # Singleton implementation for the Controller class 
     instance = None
