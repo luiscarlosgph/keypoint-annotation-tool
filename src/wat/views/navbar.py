@@ -25,13 +25,13 @@ class NavbarView(wat.views.base.BaseView):
             ),
             dbc.Nav([
                 dbc.NavItem([], className='ml-5'),
-                html.A(dbc.Button('Submit', color='success'), href='/submit', className='ml-5'),
+                dbc.Button('Submit', id='submit-button', color='success'),
                 dbc.NavItem([], className='ml-5'),
                 dbc.NavItem([], className='ml-5'),
-                html.A(dbc.Button('Undo', color='secondary'), href='/undo', className='ml-5'),
+                dbc.Button('Undo', id='undo-button', color='secondary'),
                 dbc.NavItem([], className='ml-5'),
                 dbc.NavItem([], className='ml-5'),
-                html.A(dbc.Button('Clear', color='danger'), href='/submit', className='ml-5'),
+                dbc.Button('Missing tip', id='missing-tip-button', color='info'),
             ]),
             dbc.Row([
                 html.A(dbc.Button('Instructions', color='primary'), href='/instructions', className='mr-0'),

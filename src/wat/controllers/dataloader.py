@@ -20,15 +20,16 @@ class DataLoader(object):
             self.data_dir = data_dir
             self.input_dir = os.path.join(data_dir, 'input')
             self.output_dir = os.path.join(data_dir, 'output')
-            self.log_file = os.path.join(data_dir, log_file)
+            self.last_pic_path = None
+            #self.log_file = os.path.join(data_dir, log_file)
 
             # Create an output folder if it does not exist
             if not wat.common.dir_exists(self.output_dir):
                 wat.common.mkdir(self.output_dir)
 
             # Create log file if it does not exist
-            if not wat.common.file_exists(self.log_file):
-                wat.common.touch(self.log_file)
+            #if not wat.common.file_exists(self.log_file):
+            #    wat.common.touch(self.log_file)
 
         def next(self):
             """@returns an absolute path to the next image to annotate."""
@@ -38,6 +39,7 @@ class DataLoader(object):
                 abs_path = os.path.abspath(os.path.join(self.input_dir, fname))
             else:
                 abs_path = None
+            self.last_pic_path = abs_path
             return abs_path
 
         def remaining(self):

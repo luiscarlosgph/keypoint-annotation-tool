@@ -7,7 +7,14 @@
 # @date   20 Jan 2021.
 
 import ntpath
+import os
+import json
+import cv2
+import numpy as np
+import threading
 
+# My imports
+import wat.common
 
 class BaseAnnotator(object):
     def __getattr__(self, name):
@@ -37,6 +44,7 @@ class TooltipAnnotator(BaseAnnotator):
             self.scale_factor = None  # Scale factor of the last file being annotated
             self.clicks = []          # [[x_0, y_0], [x_1, y_1], ... ]
             self.last_click_id = -1
+            #self.clicks_mutex = threading.Lock()
 
         def new_image(self, path, scale_factor):
             self.path = path 
@@ -44,21 +52,28 @@ class TooltipAnnotator(BaseAnnotator):
             self.clicks = []
             self.last_click_id = -1
 
-        def add_click(self, click_id, x, y):
-            if click_id != self.last_click_id and len(self.clicks) < self.max_tooltips:
+        #def get_last_click_id(self):
+        #    self.clicks_mutex.acquire()
+        #    click_id = self.last_click_id
+        #    self.clicks_mutex.release()
+        #    return click_id
+
+        def add_click(self, click_id, x, y, none_id='missing-tip'):
+            #self.clicks_mutex.acquire()
+
+            if click_id == none_id and len(self.clicks) < self.max_tooltips:
+                self.clicks.append({'x': None, 'y': None})
+            elif click_id != self.last_click_id and len(self.clicks) < self.max_tooltips:
                 self.last_click_id = click_id
-                x_original = int(round(x / self.scale_factor))
-                y_original = int(round(y / self.scale_factor))
-                self.clicks.append({'x': x_original, 'y': y_original})
+                #x_original = int(round(x / self.scale_factor))
+                #y_original = int(round(y / self.scale_factor))
+                self.clicks.append({'x': x, 'y': y})
+            
+            #self.clicks_mutex.release()
 
         def save(self, output_folder='output'):
-            # Move file to the output folder
-            im_fname = ntpath.basename(self.path)
-            src_path = self.path
-            dst_path = os.path.join(self.output_dir, im_fname)
-            wat.common.mv(src_path, dst_path) 
-            
             # Save JSON with the annotation
+            im_fname = ntpath.basename(self.path)
             json_fname = wat.common.fname_no_ext(im_fname) + '.json'
             dst_path = os.path.join(self.output_dir, json_fname)
             json_annotation = self._create_json_annotation()
@@ -70,20 +85,26 @@ class TooltipAnnotator(BaseAnnotator):
             dst_path = os.path.join(self.output_dir, im_annot_fname)
             im_annot = self._create_image_annotation()
             cv2.imwrite(dst_path, im_annot)
-
-        def switch_left_right(self):
-            """@brief If we are labelling a bimanual system, we can change the order of
-                      the tooltips so that the left instrument goes first in the array
-                      of clicks.
-            """
-            if len(self.clicks) == 1:
-                self.clicks = [{'x': None, 'y': None}, self.clicks[0]]
-            elif len(self.clicks) == 2:
-                self.clicks = [self.clicks[1], self.clicks[0]]
+            
+            # Move file to the output folder
+            src_path = self.path
+            dst_path = os.path.join(self.output_dir, im_fname)
+            wat.common.mv(src_path, dst_path)
+        
+        def _get_original_clicks(self):
+            original_clicks = []
+            for click in self.clicks:
+                if click['x'] is not None and click['y'] is not None:
+                    original_clicks.append({
+                        'x': int(round(click['x'] / self.scale_factor)),
+                        'y': int(round(click['y'] / self.scale_factor)),
+                    })
+                else:
+                    original_clicks.append(click)
+            return original_clicks
 
         def _create_json_annotation(self):
-            json_annotation = {'tooltips': self.clicks}
-            return json_annotation
+            return {'tooltips': self._get_original_clicks()}
 
         def _create_image_annotation(self):
             # Get image dimensions
@@ -96,7 +117,7 @@ class TooltipAnnotator(BaseAnnotator):
 
             # Add tooltip annotations
             counter = 0
-            for tooltip in self.clicks:
+            for tooltip in self._get_original_clicks():
                 counter += 1
                 x = tooltip['x']
                 y = tooltip['y']
@@ -106,9 +127,9 @@ class TooltipAnnotator(BaseAnnotator):
             return im_annot
 
     # Singleton implementation for the Controller class 
-    def __init__(self):
+    def __init__(self, data_dir=None):
         if TooltipAnnotator.instance is None:
-            TooltipAnnotator.instance = TooltipAnnotator.__TooltipAnnotator()
+            TooltipAnnotator.instance = TooltipAnnotator.__TooltipAnnotator(data_dir)
 
 
 if __name__ == '__main__':
