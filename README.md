@@ -1,10 +1,5 @@
 # Description
-This repository contains a template for a basic Python 
-web application based on Dash. 
-If you want to change the name of the package ```wat``` 
-needs to be changed in the setup.py. In addition, the
-name of the folder inside ```src``` and also the package 
-imports need to be changed.
+This repository contains a Dash application for annotating keypoints in images.
 
 # Installation
 ```
