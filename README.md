@@ -13,10 +13,11 @@ $ python setup.py install --user
 
 # Execution
 ```
-$ python -m wat.run --port 1234 --input-dir /tmp 
+$ python -m wat.run --data-dir ~/data --port 1234
 ```
-The --input-dir parameter is just an example,
-this parameter can be removed and others may be added.
+The --data-dir should contain two folders: 'input' and 'output'.
+The input folder should contain the images (*.jpg or *.png) to be annotated.
+The output folder should be empty, as the annotations will be stored there.
 
 # Deployment
 ```http://localhost:1234```
