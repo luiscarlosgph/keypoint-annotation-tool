@@ -114,7 +114,9 @@ click_event_handler.last_undo_n_clicks = None
 click_event_handler.last_missing_tip_n_clicks = None
 
 
-# Read command line parameters
+## Functions ##
+
+
 def parse_cmdline_params():
     """
     @brief Parse command line parameters to get input and output file names.
@@ -124,6 +126,8 @@ def parse_cmdline_params():
     parser = argparse.ArgumentParser()
     parser.add_argument('--data-dir', required=True, help='Path to the data directory.')
     parser.add_argument('--port', required=False, default=1234, help='Listening port.')
+    parser.add_argument('--maxtips', required=False, default=4, 
+        help='Maximum number of tooltips to annotate.')
     args = parser.parse_args()
     return args
 args = parse_cmdline_params()
@@ -133,7 +137,7 @@ def valid_cmdline_params(args):
     if not os.path.isdir(args.data_dir):
         raise ValueError('[ERROR] Data directory does not exist.')
     args.port = int(args.port)
-
+    args.maxtips = int(args.maxtips)
 
 
 def main():
@@ -154,7 +158,7 @@ def main():
 
     # Launch Singleton controller engines in the background
     wat.controllers.dataloader.DataLoader(args.data_dir)
-    wat.controllers.annotator.TooltipAnnotator(args.data_dir)
+    wat.controllers.annotator.TooltipAnnotator(args.data_dir, maxtips=args.maxtips)
     
     # Launch web server
     app.run_server(debug=False, use_reloader=False, host='0.0.0.0', port=args.port)

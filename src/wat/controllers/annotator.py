@@ -32,12 +32,17 @@ class TooltipAnnotator(BaseAnnotator):
     """
     class __TooltipAnnotator: 
         def __init__(self, data_dir, input_dir='input', output_dir='output', 
-                max_tooltips=4, gt_suffix='_seg'):
-            self.data_dir = data_dir
-            self.input_dir = os.path.join(self.data_dir, input_dir)
-            self.output_dir = os.path.join(self.data_dir, output_dir)
-            self.max_tooltips = max_tooltips
-            self.gt_suffix = gt_suffix
+                maxtips=4, gt_suffix='_seg'):
+            if data_dir is not None:
+                self.data_dir = data_dir
+            if input_dir is not None:
+                self.input_dir = os.path.join(self.data_dir, input_dir)
+            if output_dir is not None:
+                self.output_dir = os.path.join(self.data_dir, output_dir)
+            if maxtips is not None:
+                self.maxtips = maxtips
+            if gt_suffix is not None:
+                self.gt_suffix = gt_suffix
 
             # Image-specific attributes
             self.path = None          # Path to the last file being annotated
@@ -61,9 +66,9 @@ class TooltipAnnotator(BaseAnnotator):
         def add_click(self, click_id, x, y, none_id='missing-tip'):
             #self.clicks_mutex.acquire()
 
-            if click_id == none_id and len(self.clicks) < self.max_tooltips:
+            if click_id == none_id and len(self.clicks) < self.maxtips:
                 self.clicks.append({'x': None, 'y': None})
-            elif click_id != self.last_click_id and len(self.clicks) < self.max_tooltips:
+            elif click_id != self.last_click_id and len(self.clicks) < self.maxtips:
                 self.last_click_id = click_id
                 #x_original = int(round(x / self.scale_factor))
                 #y_original = int(round(y / self.scale_factor))
@@ -127,9 +132,11 @@ class TooltipAnnotator(BaseAnnotator):
             return im_annot
 
     # Singleton implementation for the Controller class 
-    def __init__(self, data_dir=None):
+    def __init__(self, data_dir=None, input_dir=None, output_dir=None, maxtips=None,
+            gt_suffix=None):
         if TooltipAnnotator.instance is None:
-            TooltipAnnotator.instance = TooltipAnnotator.__TooltipAnnotator(data_dir)
+            TooltipAnnotator.instance = TooltipAnnotator.__TooltipAnnotator(data_dir,
+                input_dir, output_dir, maxtips, gt_suffix)
 
 
 if __name__ == '__main__':
