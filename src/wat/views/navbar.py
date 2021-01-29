@@ -13,6 +13,9 @@ import wat.views.base
 class NavbarView(wat.views.base.BaseView):
     """@class that displays just the top navigation bar of the website."""
     def generate_html(self):
+        # Get the number of images in the input folder (to be annotated)
+        im_rem = str(wat.controllers.dataloader.DataLoader().remaining())
+
         nav = dbc.Navbar(
         [
             html.A(
@@ -34,6 +37,8 @@ class NavbarView(wat.views.base.BaseView):
                 dbc.Button('Missing tip', id='missing-tip-button', color='info'),
             ]),
             dbc.Row([
+                html.P('Number of images to be annotated: ' + im_rem, 
+                    style={'margin-bottom': '0px', 'padding': '7px 15px 0px 0px'}, className='mr-0'),
                 html.A(dbc.Button('Instructions', color='primary'), href='/instructions', className='mr-0'),
             ], className='ml-auto mr-1'),
         ],
