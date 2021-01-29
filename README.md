@@ -17,5 +17,8 @@ The ```output``` folder should be empty. The annotations will be stored there.
 # Deployment
 ```http://localhost:1234```
 
+# Demo image
+![alt text](https://github.com/luiscarlosgph/keypoint-annotation-tool/blob/main/demo/demo.jpg?raw=true)
+
 # License
 See LICENSE file.
