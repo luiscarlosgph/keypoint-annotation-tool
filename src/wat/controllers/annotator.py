@@ -32,7 +32,7 @@ class TooltipAnnotator(BaseAnnotator):
     """
     class __TooltipAnnotator: 
         def __init__(self, data_dir, input_dir='input', output_dir='output', 
-                max_tooltips=2, gt_suffix='_seg'):
+                max_tooltips=4, gt_suffix='_seg'):
             self.data_dir = data_dir
             self.input_dir = os.path.join(self.data_dir, input_dir)
             self.output_dir = os.path.join(self.data_dir, output_dir)
