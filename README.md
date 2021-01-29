@@ -14,7 +14,7 @@ The ```--data-dir``` parameter should contain two folders: ```input``` and ```ou
 The ```input``` folder should contain the images (```*.jpg``` or ```*.png```) to be annotated.
 The ```output``` folder should be empty. The annotations will be stored there.
 The ```--maxtips``` parameter sets the maximum number of tooltips that can be annotated per image.
-By default this is set two four as there are typically two instruments in the scene with two tooltips 
+By default this is set to four as there are typically two instruments in the scene with two tooltips 
 each (one per clasper).
 
 # Deployment
