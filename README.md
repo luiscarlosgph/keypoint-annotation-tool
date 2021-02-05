@@ -47,9 +47,9 @@ Each image in the output folder (e.g. ```example.png```) is accompanied by two a
                          clicked is annotated with intensity 1, then second with intensity 2, and so on.
 
 * ```demo.json```:       contains a list of annotations in JSON format, for example, 
-                         if four tooltips are clicked, it will contain
+                         if four tooltips are clicked, it will contain something like
     ```
-    TODO
+    {"tooltips": [{"x": 263, "y": 168}, {"x": 586, "y": 301}, {"x": 581, "y": 210}, {"x": 500, "y": 116}]}
     ```
 
 # Reading the annotations
