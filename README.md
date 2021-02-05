@@ -25,8 +25,7 @@ $ python3 setup.py install --user
 
 # Run
 ``` 
-# You should be already inside the repo, where there is a sample ```data``` folder to make this 
-# command work
+# You should be already inside the repo, where there is a sample **data** folder to make this command work
 $ python3 -m wat.run --data-dir data --port 1234 --maxtips 4
 ```
 The ```--data-dir``` parameter should contain two folders: ```input``` and ```output```.
