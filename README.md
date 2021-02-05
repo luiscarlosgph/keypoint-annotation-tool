@@ -38,6 +38,17 @@ each (one per clasper).
 # Deployment
 [http://localhost:1234](http://localhost:1234)
 
+# Annotations
+When an image is annotated, the image file is moved from the ```input``` folder to the ```output``` folder.
+Each image in the output folder (e.g. demo.jpg) is accompanied by two annotation files:
+
+* demo_seg.png: single-channel PNG image. All pixels are set to zeroz except the pixels that have been clicked during the annotation. The first keypoint clicked is
+                annotated with intensity 1, then second click with intensity 2, and so on.
+* demo.json:    contains a list of annotations in JSON format, for example, if four tooltips are clicked, it will contain TODO
+
+# Reading the annotations
+TODO
+
 # Demo image
 ![alt text](https://github.com/luiscarlosgph/keypoint-annotation-tool/blob/main/demo/demo.jpg?raw=true)
 
