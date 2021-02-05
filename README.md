@@ -6,7 +6,7 @@ This repository contains a Dash application for annotating keypoints in images.
 $ cd ~
 $ git clone git@github.com:luiscarlosgph/keypoint-annotation-tool.git
 $ cd keypoint-annotation-tool
-$ python setup.py install --user
+$ python3 setup.py install --user
 ```
 
 # Execution
