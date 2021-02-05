@@ -12,7 +12,7 @@ $ sudo apt install libopencv-dev python3-opencv
 $ pyhton3 -m pip install opencv-python --user
 ```
 
-# Installation
+# Install this package
 ```
 # Install pip dependencies
 $ python3 -m pip install dash dash_bootstrap_components
