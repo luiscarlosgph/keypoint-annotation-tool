@@ -1,12 +1,23 @@
 # Description
 This repository contains a Dash application for annotating keypoints in images.
 
+# Install dependencies
+* OpenCV
+```
+# Ubuntu/Debian
+$ sudo apt update
+$ sudo apt install libopencv-dev python3-opencv
+
+# Other platforms
+$ pyhton3 -m pip install opencv-python
+```
+
 # Installation
 ```
-# Installing dependencies
+# Install pip dependencies
 $ python3 -m pip install dash dash_bootstrap_components
 
-# Installing this repo
+# Install this repo
 $ cd ~
 $ git clone git@github.com:luiscarlosgph/keypoint-annotation-tool.git
 $ cd keypoint-annotation-tool
