@@ -27,4 +27,4 @@ each (one per clasper).
 ![alt text](https://github.com/luiscarlosgph/keypoint-annotation-tool/blob/main/demo/demo.jpg?raw=true)
 
 # License
-See LICENSE file.
+See [LICENSE](https://github.com/luiscarlosgph/keypoint-annotation-tool/blob/main/LICENSE) file.
