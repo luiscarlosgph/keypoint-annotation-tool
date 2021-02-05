@@ -15,7 +15,7 @@ $ python3 -m pip install opencv-python --user
 # Install this package
 ```
 # Install pip dependencies
-$ python3 -m pip install dash dash_bootstrap_components
+$ python3 -m pip install numpy dash dash_bootstrap_components
 
 # Install this repo
 $ cd ~
