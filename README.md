@@ -36,7 +36,7 @@ By default this is set to four as there are typically two instruments in the sce
 each (one per clasper).
 
 # Deployment
-```http://localhost:1234```
+[http://localhost:1234](http://localhost:1234)
 
 # Demo image
 ![alt text](https://github.com/luiscarlosgph/keypoint-annotation-tool/blob/main/demo/demo.jpg?raw=true)
