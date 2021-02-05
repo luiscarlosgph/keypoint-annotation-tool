@@ -24,7 +24,7 @@ $ cd keypoint-annotation-tool
 $ python3 setup.py install --user
 ```
 
-# Execution
+# Run
 ```
 $ python3 -m wat.run --data-dir ~/keypoint-annotation-tool/data --port 1234 --maxtips 4
 ```
