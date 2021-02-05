@@ -4,7 +4,7 @@ This repository contains a Dash application for annotating keypoints in images.
 # Installation
 ```
 # Installing dependencies
-$ python3 -m pip install dash
+$ python3 -m pip install dash dash_bootstrap_components
 
 # Installing this repo
 $ cd ~
