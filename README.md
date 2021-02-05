@@ -9,7 +9,7 @@ $ sudo apt update
 $ sudo apt install libopencv-dev python3-opencv
 
 # Other platforms
-$ pyhton3 -m pip install opencv-python
+$ pyhton3 -m pip install opencv-python --user
 ```
 
 # Installation
