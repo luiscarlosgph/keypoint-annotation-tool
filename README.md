@@ -39,7 +39,7 @@ each (one per clasper).
 [http://localhost:1234](http://localhost:1234)
 
 # Annotations
-When an image is annotated, the image file is moved from the ```input``` folder to the ```output``` folder.
+When an image is annotated, the image file is moved from the ```input``` to the ```output``` folder.
 Each image in the output folder (e.g. ```example.png```) is accompanied by two annotation files:
 
 * ```example_seg.png```: single-channel PNG image. All pixels are set to zero except those that 
