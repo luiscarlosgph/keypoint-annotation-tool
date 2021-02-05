@@ -31,18 +31,20 @@ class TooltipAnnotator(BaseAnnotator):
            scenes that contain a maximum of two tooltips. It is a Singleton.
     """
     class __TooltipAnnotator: 
-        def __init__(self, data_dir, input_dir='input', output_dir='output', 
-                maxtips=4, gt_suffix='_seg'):
-            if data_dir is not None:
-                self.data_dir = data_dir
-            if input_dir is not None:
-                self.input_dir = os.path.join(self.data_dir, input_dir)
-            if output_dir is not None:
-                self.output_dir = os.path.join(self.data_dir, output_dir)
-            if maxtips is not None:
-                self.maxtips = maxtips
-            if gt_suffix is not None:
-                self.gt_suffix = gt_suffix
+        def __init__(self, data_dir, input_dir, output_dir, maxtips, gt_suffix):
+            # Validate all the input information
+            assert(data_dir is not None)
+            assert(input_dir is not None)
+            assert(output_dir is not None)
+            assert(maxtips is not None)
+            assert(gt_suffix is not None)
+            
+            # Store parameters in internal attributes
+            self.data_dir = data_dir
+            self.input_dir = os.path.join(self.data_dir, input_dir)
+            self.output_dir = os.path.join(self.data_dir, output_dir)
+            self.maxtips = maxtips
+            self.gt_suffix = gt_suffix
 
             # Image-specific attributes
             self.path = None          # Path to the last file being annotated
@@ -132,12 +134,19 @@ class TooltipAnnotator(BaseAnnotator):
             return im_annot
 
     # Singleton implementation for the Controller class 
-    def __init__(self, data_dir=None, input_dir=None, output_dir=None, maxtips=None,
-            gt_suffix=None):
+    def __init__(self, data_dir=None, input_dir='input', output_dir='output', 
+                maxtips=4, gt_suffix='_seg'):
         if TooltipAnnotator.instance is None:
             TooltipAnnotator.instance = TooltipAnnotator.__TooltipAnnotator(data_dir,
                 input_dir, output_dir, maxtips, gt_suffix)
-
+        else:
+            # An annotator already exists, so you cannot pass different parameters 
+            # than the ones you provided when it was built for first time, so just
+            # in case, let's check that you are calling it properly 
+            if data_dir is not None:
+                assert(data_dir == TooltipAnnotator.instance.data_dir)
+            assert(maxtips == TooltipAnnotator.instance.maxtips)
+            assert(gt_suffix == TooltipAnnotator.instance.gt_suffix)
 
 if __name__ == '__main__':
     raise RuntimeError('[ERROR] This module cannot be run like a script.')
