@@ -1,5 +1,5 @@
 # Description
-This repository contains a Dash application for annotating keypoints in images.
+This repository contains a Python [Dash](https://dash.plotly.com/introduction) application for annotating keypoints in images.
 
 # Install dependencies
 * OpenCV
