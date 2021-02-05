@@ -10,7 +10,7 @@ $ python setup.py install --user
 
 # Execution
 ```
-$ python3 -m wat.run --data-dir ~/data --port 1234 --maxtips 4
+$ python3 -m wat.run --data-dir ~/keypoint-annotation-tool/data --port 1234 --maxtips 4
 ```
 The ```--data-dir``` parameter should contain two folders: ```input``` and ```output```.
 The ```input``` folder should contain the images (```*.jpg``` or ```*.png```) to be annotated.
