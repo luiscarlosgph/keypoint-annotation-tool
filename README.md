@@ -55,10 +55,10 @@ Each image in the output folder (e.g. ```example.png```) is accompanied by two a
     ```
 
 # Reading the annotations
-The script ()[read_annotations.py] is provided as a staring point to process your annotated images.
+The script [read_annotations.py](https://github.com/luiscarlosgph/keypoint-annotation-tool/blob/main/src/wat/read_annotations.py) is provided as a staring point to process your annotated images.
 ```
-# Assuming you are already inside the repository
-$ python3 src/read_annotations.py --data-dir data
+# Run this command after annotating the sample image provided with the repo
+$ python3 -m wat.read_annotations --dir data/output
 ```
 
 # Demo image
