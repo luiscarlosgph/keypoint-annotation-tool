@@ -17,9 +17,11 @@ $ python3 -m pip install opencv-python --user
 # Install pip dependencies
 $ python3 -m pip install numpy dash dash_bootstrap_components --user
 
-# Install this repo
+# Download repo
 $ git clone git@github.com:luiscarlosgph/keypoint-annotation-tool.git
 $ cd keypoint-annotation-tool
+
+# Install package
 $ python3 setup.py install --user
 ```
 
