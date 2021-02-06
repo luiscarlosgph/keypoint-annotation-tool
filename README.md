@@ -38,7 +38,7 @@ By default this is set to four as there are typically two instruments in the sce
 each (one per clasper).
 
 # Deployment
-[http://localhost:1234](http://localhost:1234)
+Go to [http://localhost:1234](http://localhost:1234) with your favourite web browser.
 
 # Annotations
 When an image is annotated, the image file is moved from the ```input``` to the ```output``` folder.
