@@ -22,7 +22,7 @@ def parse_cmdline_params():
     @return input and output file names if they were specified.
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('--output-dir', required=True, help='Path to the output directory.')
+    parser.add_argument('--dir', required=True, help='Path to the output directory.')
     parser.add_argument('--gt-suffix', default='_seg', required=False, 
         help='Suffix of the segmentation-like annotations.')
     args = parser.parse_args()
@@ -30,8 +30,12 @@ def parse_cmdline_params():
 
 
 def valid_cmdline_params(args):
-    if not os.path.isdir(args.output_dir):
-        raise ValueError('[ERROR] Output directory does not exist.')
+    if not os.path.isdir(args.dir):
+        raise ValueError('[ERROR] The provided directory does not exist.')
+
+
+def isimage(f):
+    return True if '.png' in f or '.jpg' in f else False
 
 
 def main():
@@ -39,11 +43,32 @@ def main():
     args = parse_cmdline_params()
     valid_cmdline_params(args) 
     
-    # List the data
-    files = wat.common.listdir(args.output_dir, onlyfiles=True)
-    images = [f for f in files if args.gt_suffix not in f and ('.png' in f or '.jpg' in f)]
-    # TODO: jsons = []
-    # TODO: segmentations = []
+    # List the annotated data
+    files = wat.common.listdir(args.dir, onlyfiles=True)
+    segmentations = [f for f in files if args.gt_suffix in f]
+    jsons = [f for f in files if '.json' in f]
+    images = [f for f in files if isimage(f) and f not in segmentations]
+    
+    # Loop over the annotated images
+    print('Listing of the data found in the provided directory:')
+    for im_fname, json_fname, seg_fname in zip(images, jsons, segmentations):
+        print('Reading annotations for image:', im_fname)
+        
+        # Read image
+        im_path = os.path.join(args.dir, im_fname)
+        im = cv2.imread(im_path, cv2.IMREAD_UNCHANGED)
+
+        # Read segmentation-like single-channel annotation
+        seg_path = os.path.join(args.dir, seg_fname)
+        seg = cv2.imread(seg_fname, cv2.IMREAD_UNCHANGED)
+
+        # Read JSON annotation
+        json_path = os.path.join(args.dir, json_fname)
+        with open(json_path) as json_file:
+            json_data = json.load(json_file)
+
+        # Do something with the annotation here!
+        print(json_data)
     
 if __name__ == "__main__":
     main()
