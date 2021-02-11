@@ -74,4 +74,4 @@ Demo image
 
 License
 -------
-See [LICENSE](https://github.com/luiscarlosgph/keypoint-annotation-tool/blob/main/LICENSE) file.
+This code is distributed under the [MIT license](https://github.com/luiscarlosgph/keypoint-annotation-tool/blob/main/LICENSE).
