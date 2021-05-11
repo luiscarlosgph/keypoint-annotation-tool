@@ -25,4 +25,10 @@ setuptools.setup(name='web-annotation-tool',
     },
     test_suite='tests',
     include_package_data=True,
+    install_requires=[
+      'numpy',
+      'pandas',
+      'dash',
+      'dash_bootstrap_components',
+    ],
 )
