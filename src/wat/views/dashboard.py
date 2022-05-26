@@ -4,12 +4,13 @@
 # @author Luis Carlos Garcia-Peraza Herrera (luiscarlos.gph@gmail.com).
 # @date   20 Jan 2020.
 
-import dash_core_components as dcc
+from dash import dcc
 import dash_bootstrap_components as dbc
-import dash_html_components as html
+from dash import html
 import plotly.graph_objects as go
 import plotly.express as px
 import cv2
+import os
 
 # My imports
 import wat.common
@@ -97,7 +98,7 @@ class DashboardView(wat.views.base.BaseView):
 
             # Create canvas
             graph = dcc.Graph(id='canvas', figure=fig, config=config)
-            header = path
+            header = os.path.basename(path)
         else:
             # If there are no images in the input folder
             graph = html.P('There are no images in the input folder.',
@@ -135,13 +136,13 @@ class DashboardView(wat.views.base.BaseView):
         click_toast = self._generate_click_toast()
 
         # Produce container (everything under navbar)
-        content = dbc.Container(fluid=True, className='mt-3', children=[
+        content = html.Div(className='mt-3', children=[
             dbc.Row([
-                dbc.Col(display_toast, width='auto', style={'padding-right': '0px'}),
-                dbc.Col(click_toast, width='auto', style={'padding-right': '0px'}),
+                dbc.Col(display_toast, style={'padding-right': '0px'}),
+                dbc.Col(click_toast, style={'padding-right': '0px'}),
             ], className='mb-3'),
             self._generate_instructions_toast(),
-        ])
+        ], style={'width': '100%'})
         return content
 
 

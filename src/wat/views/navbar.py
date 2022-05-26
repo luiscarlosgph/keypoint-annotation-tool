@@ -5,7 +5,7 @@
 # @date   20 Jan 2020.
 
 import dash_bootstrap_components as dbc
-import dash_html_components as html
+from dash import html
 
 # My imports
 import wat.views.base
@@ -17,33 +17,23 @@ class NavbarView(wat.views.base.BaseView):
         im_rem = str(wat.controllers.dataloader.DataLoader().remaining())
 
         nav = dbc.Navbar(
-        [
-            html.A(
-                # Use row and col to control vertical alignment of 
-                # logo / brand
+            html.Div([
                 dbc.Row([
-                    dbc.Col(dbc.NavbarBrand('Tooltip annotation', className='ml-0')),
-                ], className='ml-1', align='center', no_gutters=True),
-                href='/',
-            ),
-            dbc.Nav([
-                dbc.NavItem([], className='ml-5'),
-                dbc.Button('Submit', id='submit-button', color='success'),
-                dbc.NavItem([], className='ml-5'),
-                dbc.NavItem([], className='ml-5'),
-                dbc.Button('Undo', id='undo-button', color='secondary'),
-                dbc.NavItem([], className='ml-5'),
-                dbc.NavItem([], className='ml-5'),
-                dbc.Button('Missing tip', id='missing-tip-button', color='info'),
-            ]),
-            dbc.Row([
-                html.P('Number of images to be annotated: ' + im_rem, 
-                    style={'margin-bottom': '0px', 'padding': '7px 15px 0px 0px'}, className='mr-0'),
-                html.A(dbc.Button('Instructions', color='primary'), href='/instructions', className='mr-0'),
-            ], className='ml-auto mr-1'),
-        ],
-        color='dark',
-        dark=True,
+                    dbc.Col(html.A(
+                        dbc.NavbarBrand('Keypoint annotator'),
+                        href='/',
+                    ), width=2, style={'padding-top': '3px', 'padding-left': '25px'}),
+                    dbc.Col([
+                        dbc.Button('Submit', id='submit-button', color='success', style={'margin-right': '20px'}),
+                        dbc.Button('Undo', id='undo-button', color='secondary', style={'margin-right': '20px'}),
+                        dbc.Button('Missing tip', id='missing-tip-button', color='info'),
+                    ], width=2),
+                    dbc.Col(html.P('Remaining: ' + im_rem), width=1),
+                    dbc.Col(html.A(dbc.Button('Instructions', color='primary'), href='/instructions'), width={'size': 1, 'offset': 6}),
+                ]),
+            ], style={'width': '100%'}), 
+            color='dark', 
+            dark=True,
         )
         return nav
 

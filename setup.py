@@ -29,6 +29,6 @@ setuptools.setup(name='web-annotation-tool',
       'numpy',
       'pandas',
       'dash',
-      'dash_bootstrap_components',
+      #'dash_bootstrap_components',
     ],
 )

@@ -4,7 +4,7 @@
 # @author Luis Carlos Garcia-Peraza Herrera (luiscarlos.gph@gmail.com).
 # @date   13 Nov 2020.
 
-import dash_html_components as html
+from dash import html
 import dash_bootstrap_components as dbc
 
 # My imports
