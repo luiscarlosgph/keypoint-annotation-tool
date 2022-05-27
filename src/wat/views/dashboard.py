@@ -43,7 +43,7 @@ class DashboardView(wat.views.base.BaseView):
         )
         return instructions_toast
 
-    def _generate_display_toast(self, max_display_width=1500, display_margin=10):
+    def _generate_display_toast(self, max_display_width=960, display_margin=10):
         # Get the path of the next image to annotate
         path = self.data_loader.next()
         
@@ -56,7 +56,7 @@ class DashboardView(wat.views.base.BaseView):
             resized = None
             scale_factor = 1.0
             if img.shape[1] > max_display_width:
-                scale_factor = max_display_width / img.shape[1]
+                scale_factor = max_display_width / img.shape[1] 
                 width = int(round(img.shape[1] * scale_factor))
                 height = int(round(img.shape[0] * scale_factor))
                 resized = cv2.resize(img, (width, height), interpolation=cv2.INTER_LINEAR)
