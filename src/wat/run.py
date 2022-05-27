@@ -77,6 +77,7 @@ def display_page(n_clicks, pathname):
     # Click on the submit button
     if n_clicks is not None:
         wat.controllers.annotator.TooltipAnnotator().save(fitted_circle)
+        fitted_circle = None
         return wat.page.DashboardPage(args).generate_html()
     
     # HTTP GET of any URL
@@ -161,6 +162,8 @@ def click_event_handler(canvas_n_clicks, hoverData, undo_n_clicks, missing_tip_n
             mode= 'markers',
             name='Circle',
         ))
+    else:
+        fitted_circle = None
 
         # fig.add_shape(
         #     type="circle",
