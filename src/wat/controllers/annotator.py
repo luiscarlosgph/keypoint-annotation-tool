@@ -92,13 +92,13 @@ class TooltipAnnotator(BaseAnnotator):
             # Save binary mask with the tooltip annotation
             im_annot_fname = wat.common.fname_no_ext(im_fname) + self.gt_suffix + '.png'
             dst_path = os.path.join(self.output_dir, im_annot_fname)
-            im_annot = self._create_image_annotation()
+            im_annot = 0 * self._create_image_annotation().astype(np.uint8)
 
-            h, w = im_annot.shape[:2]
-            Y, X = np.ogrid[:h, :w]
-            dist_from_center = np.sqrt((X - circle[0])**2 + (Y-circle[1])**2)
-
-            im_annot = np.where(dist_from_center <= circle[2], 255, 0).astype(np.uint8)
+            if circle != None:
+                h, w = im_annot.shape[:2]
+                Y, X = np.ogrid[:h, :w]
+                dist_from_center = np.sqrt((X - circle[0])**2 + (Y-circle[1])**2)
+                im_annot = np.where(dist_from_center <= circle[2], 255, 0).astype(np.uint8)
 
             cv2.imwrite(dst_path, im_annot)
         

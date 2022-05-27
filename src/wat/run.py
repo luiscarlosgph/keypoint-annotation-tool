@@ -75,7 +75,7 @@ def display_page(n_clicks, pathname):
     global fitted_circle
     
     # Click on the submit button
-    if fitted_circle is not None:
+    if n_clicks is not None:
         wat.controllers.annotator.TooltipAnnotator().save(fitted_circle)
         return wat.page.DashboardPage(args).generate_html()
     
