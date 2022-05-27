@@ -68,9 +68,9 @@ class TooltipAnnotator(BaseAnnotator):
         def add_click(self, click_id, x, y, none_id='missing-tip'):
             #self.clicks_mutex.acquire()
 
-            if click_id == none_id and len(self.clicks) < self.maxtips:
+            if click_id == none_id and len(self.clicks) < 20:
                 self.clicks.append({'x': None, 'y': None})
-            elif click_id != self.last_click_id and len(self.clicks) < self.maxtips:
+            elif click_id != self.last_click_id and len(self.clicks) < 20:
                 self.last_click_id = click_id
                 #x_original = int(round(x / self.scale_factor))
                 #y_original = int(round(y / self.scale_factor))
@@ -78,21 +78,30 @@ class TooltipAnnotator(BaseAnnotator):
             
             #self.clicks_mutex.release()
 
-        def save(self, output_folder='output'):
+        def save(self, circle, output_folder='output'):
             # Save JSON with the annotation
             im_fname = ntpath.basename(self.path)
             json_fname = wat.common.fname_no_ext(im_fname) + '.json'
             dst_path = os.path.join(self.output_dir, json_fname)
-            json_annotation = self._create_json_annotation()
+            # json_annotation = self._create_json_annotation()
             with open(dst_path, 'w') as f: 
-                json.dump(json_annotation, f)
+                json.dump(circle, f)
+
+     
             
             # Save binary mask with the tooltip annotation
             im_annot_fname = wat.common.fname_no_ext(im_fname) + self.gt_suffix + '.png'
             dst_path = os.path.join(self.output_dir, im_annot_fname)
             im_annot = self._create_image_annotation()
+
+            h, w = im_annot.shape[:2]
+            Y, X = np.ogrid[:h, :w]
+            dist_from_center = np.sqrt((X - circle[0])**2 + (Y-circle[1])**2)
+
+            im_annot = np.where(dist_from_center <= circle[2], 255, 0).astype(np.uint8)
+
             cv2.imwrite(dst_path, im_annot)
-            
+        
             # Move file to the output folder
             src_path = self.path
             dst_path = os.path.join(self.output_dir, im_fname)

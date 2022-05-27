@@ -14,6 +14,7 @@ import dash.dependencies
 import os
 import flask
 import json
+import plotly
 import plotly.express as px
 import cv2
 import numpy as np
@@ -31,6 +32,35 @@ app.scripts.config.serve_locally = True
 #app.config['suppress_callback_exceptions'] = True
 args = None
 
+from scipy import optimize
+
+fitted_circle = None
+
+def fit_circle(points):
+
+    x = [p["x"] for p in points]
+    y = [p["y"] for p in points]
+
+    def calc_R(xc, yc):
+        return np.sqrt((x-xc)**2 + (y-yc)**2)
+
+    def f_2(c):
+        Ri = calc_R(*c)
+        return Ri - Ri.mean()
+
+    x_m = sum(x) / len(x)
+    y_m = sum(y) / len(y)
+
+    center_estimate = x_m, y_m
+    center_2, ier = optimize.leastsq(f_2, center_estimate)
+
+    xc_2, yc_2 = center_2
+    Ri_2       = calc_R(*center_2)
+    R_2        = Ri_2.mean()
+    residu_2   = sum((Ri_2 - R_2)**2)
+
+    return xc_2, yc_2, R_2
+
 
 ## Callbacks ##
 
@@ -42,10 +72,11 @@ args = None
 )
 def display_page(n_clicks, pathname):
     global args
+    global fitted_circle
     
     # Click on the submit button
-    if n_clicks is not None:
-        wat.controllers.annotator.TooltipAnnotator().save()
+    if fitted_circle is not None:
+        wat.controllers.annotator.TooltipAnnotator().save(fitted_circle)
         return wat.page.DashboardPage(args).generate_html()
     
     # HTTP GET of any URL
@@ -66,6 +97,9 @@ def display_page(n_clicks, pathname):
     dash.dependencies.State('canvas', 'figure'),
 )
 def click_event_handler(canvas_n_clicks, hoverData, undo_n_clicks, missing_tip_n_clicks, fig):
+    
+    global fitted_circle
+
     # Click on canvas
     if canvas_n_clicks is not None and canvas_n_clicks != click_event_handler.last_canvas_n_clicks:
         click_event_handler.last_canvas_n_clicks = canvas_n_clicks
@@ -102,10 +136,50 @@ def click_event_handler(canvas_n_clicks, hoverData, undo_n_clicks, missing_tip_n
         fig['data'].append(go.Scatter(
             x=[click['x']],
             y=[click['y']],
+            hoverinfo='skip',
             showlegend=False,
             mode= 'markers',
             name='Tooltip ' + str(idx + 1),
         ))
+
+    if len(clicks) >= 3:
+        x, y, r = fit_circle(clicks)
+        fitted_circle = x, y, r
+        fig['data'].append(go.Scatter(
+            x=[x],
+            y=[y],
+            hoverinfo='skip',
+            marker_symbol="circle-open",
+            marker=dict(
+                size=2*r,
+                line=dict(
+                    color='Green',
+                    width=2
+                )
+            ),
+            showlegend=False,
+            mode= 'markers',
+            name='Circle',
+        ))
+
+        # fig.add_shape(
+        #     type="circle",
+        #     xref="x", yref="y",
+        #     x0=x-r, y0=y-r, x1=x+r, y1=y+r,
+        #     line_color="Green",
+        # )
+
+
+        # fig['data'].append(
+        #     go.Figure(
+        #         name='Circle',
+        #     ).add_shape(
+        #         type="circle",
+        #         xref="x", yref="y",
+        #         x0=x-r, y0=y-r, x1=x+r, y1=y+r,
+        #         line_color="Green",
+        #     )
+        # )
 
     return tooltip_view, fig
 
